@@ -1,4 +1,5 @@
 # chatRoom-internet-security---database
+
 import sqlite3
 connection = sqlite3.connect("company.db")
 cursor = connection.cursor()
@@ -29,4 +30,7 @@ sql_command = """INSERT INTO users (uname,password)
     VALUES ("Karol","Krishna");"""
     
 cursor.execute(sql_command)
+connection.commit()
+
+connection.close()
 
