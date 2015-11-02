@@ -11,11 +11,13 @@ from communication import send, receive
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_PSS
 from Crypto.Hash import SHA
-cnx = mysql.connector.connect(user='scott', password='tiger',
-                              host='127.0.0.1',
-                              database='employees')
-                              cnx.close()
 
+DB_NAME = 'users'
+TABLES = {}
+TABLES['users'] = (
+    "CREATE TABLE `users` ("
+    "  `user_name` varchar(14) NOT NULL,"
+    "  `password varchar(32) NOT NULL,")
 
 
 
