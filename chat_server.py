@@ -12,12 +12,6 @@ from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_PSS
 from Crypto.Hash import SHA
 
-DB_NAME = 'users'
-TABLES = {}
-TABLES['users'] = (
-    "CREATE TABLE `users` ("
-    "  `user_name` varchar(14) NOT NULL,"
-    "  `password varchar(32) NOT NULL,")
 
 
 
