@@ -28,12 +28,5 @@ sql_command = """INSERT INTO users (uname,password)
 sql_command = """INSERT INTO users (uname,password)
     VALUES ("Karol","Krishna");"""
     
-    
-    
-    
-    
-    
-    
-    
 cursor.execute(sql_command)
 
