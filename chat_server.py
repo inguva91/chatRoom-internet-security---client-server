@@ -5,6 +5,7 @@ import select
 import socket
 import sys
 import signal
+import mysql.connector
 from time import sleep
 from communication import send, receive
 from Crypto.PublicKey import RSA
