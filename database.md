@@ -3,6 +3,12 @@
 import sqlite3
 connection = sqlite3.connect("company.db")
 cursor = connection.cursor()
+$ pip install passlib
+
+from passlib.hash import pbkdf2_sha256
+ 
+hash = pbkdf2_sha256.encrypt("password", rounds=200000, salt_size=16)
+ 
 sql_command = """
 CREATE TABLE users ( 
 uname VARCHAR(20), 
@@ -34,3 +40,12 @@ connection.commit()
 
 connection.close()
 
+THIS CHECKS IF PASSWORDS MATCH
+
+cursor.execute("SELECT * FROM users WHERE username= ? and password= ?",
+    (username, pass1))
+found = cursor.fetchone()
+if found:
+    # user exists and password matches
+else:
+    # user does not exist or password does not match
