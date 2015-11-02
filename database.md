@@ -1,5 +1,5 @@
 # chatRoom-internet-security---database
-
+import mysql.connector
 
 from mysql.connector import errorcode
 
