@@ -4,6 +4,7 @@ import os
 import socket
 import sys
 import select
+import getpass
 
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_PSS
@@ -14,12 +15,16 @@ from communication import send, receive
 
 class chat_client(object):
 
+    #def __init__(self, name, host='127.0.0.1', port=3490, password=123456):
     def __init__(self, name, host='127.0.0.1', port=3490):
         self.name = name
         # Quit flag
         self.flag = False
         self.port = int(port)
         self.host = host
+	print "Enter password:"
+	password = getpass.getpass()
+	self.password = password
 
         # Initial prompt
         self.prompt = '[' + '@'.join((name, socket.gethostname().split('.')[0])) + ']> '
@@ -42,10 +47,18 @@ class chat_client(object):
 
             # Send my name...
             send(self.sock, 'NAME: ' + self.name)
+            #data = receive(self.sock)
+
+            # Send my password...
+            send(self.sock, 'PASSWORD: ' + self.password)
             data = receive(self.sock)
 
             # Contains client address, set it
             addr = data.split('CLIENT: ')[1]
+	    if  len(addr) > 15:
+		print 'Password Verification Failed'
+		print addr
+		exit(0)
             self.prompt = '[' + '@'.join((self.name, addr)) + ']> '
 
         except socket.error:
@@ -115,7 +128,8 @@ class chat_client(object):
 if __name__ == "__main__":
 
     if len(sys.argv) < 3:
-        sys.exit('Usage: %s username host portno' % sys.argv[0])
+        sys.exit('Usage: %s username host portno password' % sys.argv[0])
 
+    #client = chat_client(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])
     client = chat_client(sys.argv[1], sys.argv[2], int(sys.argv[3]))
     client.cmdloop()

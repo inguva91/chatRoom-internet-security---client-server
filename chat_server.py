@@ -5,6 +5,7 @@ import select
 import socket
 import sys
 import signal
+import hashlib
 
 from time import sleep
 from communication import send, receive
@@ -16,6 +17,12 @@ from Crypto.Hash import SHA
 
 
 class chat_server(object):
+
+
+    def lookup(dic, key, *keys):
+	if keys:
+		return lookup(dic.get(key, {}), *keys)
+	return dic.get(key)
 
     def __init__(self, address='127.0.0.1', port=3490):
         self.numOfClients = 0
@@ -84,6 +91,9 @@ class chat_server(object):
     def serve(self):
         inputs = [self.server, sys.stdin]
         self.outputs = []
+	#Create a password and Username Dictionary
+	passwordDict = {'rew': hashlib.sha1('123456'), 'set': hashlib.sha1('123')}
+	#passwordDict = {'rew': '123456', 'set': '123'}
 
         running = 1
 
@@ -108,6 +118,19 @@ class chat_server(object):
 
                     # Read the login name
                     cname = receive(client).split('NAME: ')[1]
+		    #print cname
+
+                    # Read the login name
+                    cpassword = receive(client).split('PASSWORD: ')[1]
+		    #print "password received from client"
+		    #print cpassword
+
+		    if hashlib.sha1(cpassword).hexdigest() == passwordDict.get(cname).hexdigest():
+		    #if cpassword == passwordDict.get(cname):
+			print "Username and Password Matched"
+		    else:
+                    	send(client, 'CLIENT: USERNAME and Password Doesnt Match')
+			continue
 
                     # Compute client name and send back
                     self.numOfClients += 1
