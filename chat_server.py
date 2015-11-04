@@ -92,7 +92,7 @@ class chat_server(object):
         inputs = [self.server, sys.stdin]
         self.outputs = []
 	#Create a password and Username Dictionary
-	passwordDict = {'rew': hashlib.sha1('123456'), 'set': hashlib.sha1('123')}
+	passwordDict = {'rew': hashlib.sha1('123456'), 'set': hashlib.sha1('1230'), 'rew1': hashlib.sha1('23456'), 'set1': hashlib.sha1('1231'), 'rew2': hashlib.sha1('13456'), 'set2': hashlib.sha1('1232'), 'rew3': hashlib.sha1('12456'), 'set3': hashlib.sha1('1233'), 'rew4': hashlib.sha1('12356'), 'set4': hashlib.sha1('1234')}
 	#passwordDict = {'rew': '123456', 'set': '123'}
 
         running = 1
