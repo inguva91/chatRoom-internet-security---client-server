@@ -93,7 +93,6 @@ class chat_server(object):
         self.outputs = []
 	#Create a password and Username Dictionary
 	passwordDict = {'rew': hashlib.sha1('123456'), 'set': hashlib.sha1('1230'), 'rew1': hashlib.sha1('23456'), 'set1': hashlib.sha1('1231'), 'rew2': hashlib.sha1('13456'), 'set2': hashlib.sha1('1232'), 'rew3': hashlib.sha1('12456'), 'set3': hashlib.sha1('1233'), 'rew4': hashlib.sha1('12356'), 'set4': hashlib.sha1('1234')}
-	#passwordDict = {'rew': '123456', 'set': '123'}
 	existingCustomers = {0 : 'xyz'} 
 
         running = 1
@@ -123,20 +122,13 @@ class chat_server(object):
 
                     # Read the login name
                     cpassword = receive(client).split('PASSWORD: ')[1]
-		    #print "password received from client"
-		    #print cpassword
 
 		    if hashlib.sha1(cpassword).hexdigest() == passwordDict.get(cname).hexdigest():
-		    #if cpassword == passwordDict.get(cname):
 			print "Username and Password Matched"
 		    else:
                     	send(client, 'CLIENT: USERNAME and Password Doesnt Match')
 			continue
 
-		    #oldLen = len(existingCustomers);
-		    #existingCustomers.update({self.numOfClients+1,cname})
-		    #existingCustomers[self.numOfClients+1] = cname
-		    #if oldLen == len(existingCustomers):
 		    print existingCustomers.values()
 		    if cname in existingCustomers.values():
                     	send(client, 'CLIENT: Customer with these Credentials is Already LoggedIn: Use Different Credentials')
@@ -146,7 +138,6 @@ class chat_server(object):
                     self.numOfClients += 1
                     send(client, 'CLIENT: ' + str(address[0]))
                     inputs.append(client)
-		    #existingCustomers[self.numOfClients] = cname
 		    existingCustomers[client] = cname
 
                     self.clientmap[client] = (address, cname, publicKey)

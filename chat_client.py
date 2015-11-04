@@ -47,7 +47,6 @@ class chat_client(object):
 
             # Send my name...
             send(self.sock, 'NAME: ' + self.name)
-            #data = receive(self.sock)
 
             # Send my password...
             send(self.sock, 'PASSWORD: ' + self.password)
@@ -55,7 +54,7 @@ class chat_client(object):
 
             # Contains client address, set it
             addr = data.split('CLIENT: ')[1]
-	    if  len(addr) > 15:
+	    if  len(addr) > 15:#Means the server is not sending IP address of client
 		print 'Password Verification Failed'
 		print addr
 		exit(0)
