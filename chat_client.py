@@ -5,6 +5,7 @@ import socket
 import sys
 import select
 import getpass
+import hashlib
 
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_PSS
@@ -49,6 +50,7 @@ class chat_client(object):
             send(self.sock, 'NAME: ' + self.name)
 
             # Send my password...
+            #send(self.sock, 'PASSWORD: ' + hashlib.sha1(self.password))
             send(self.sock, 'PASSWORD: ' + self.password)
             data = receive(self.sock)
 

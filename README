@@ -25,3 +25,11 @@ set3		1233
 rew4		12356
 set4		1234
 --------------------------------------------
+
+
+Send Message to Only one Client:
+--------------------------------------------
+[set3@127.0.0.1]> set Testingsend 
+              -- Will send the message 'Testingsend' from 'set3' to 'set'.
+First word in the command prompt should be the username, whom we wish to send message. If the user is not loggedin currently, we get an appropriate error.
+--------------------------------------------

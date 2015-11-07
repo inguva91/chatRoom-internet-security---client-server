@@ -124,6 +124,7 @@ class chat_server(object):
                     cpassword = receive(client).split('PASSWORD: ')[1]
 
 		    if hashlib.sha1(cpassword).hexdigest() == passwordDict.get(cname).hexdigest():
+		    #if cpassword.hexdigest() == passwordDict.get(cname).hexdigest():
 			print "Username and Password Matched"
 		    else:
                     	send(client, 'CLIENT: USERNAME and Password Doesnt Match')
@@ -181,12 +182,22 @@ class chat_server(object):
                                     data = '%s [Not verified]' % data
 
                                 # Send as new client's message...
-                                msg = '\n# [' + self.getName(s) + ']>> ' + data
+				dataReceivers = data.split(' ')
+				dataReceiver = dataReceivers[0]
+				print dataReceiver
+                                msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[1]
 
                                 # Send msg to all except ourselves
-                                for o in self.outputs:
-                                    if o != s:
-                                        self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+				if dataReceiver in existingCustomers.values():
+					#print 'trying to send now'
+                                	for o in self.outputs:
+                                    		#if o != s:
+                                    		if existingCustomers.get(o) == dataReceiver:
+							#print 'sending now'
+                                        		self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+				else:
+                                	msg = '\n# [' + self.getName(s) + ']>> ' + 'Receiver ' + dataReceiver + ' is NOT Logged In Now'
+					self.sendEncryptedMsg(s, msg, self.get_just_name(s))
 
                         else:
 
