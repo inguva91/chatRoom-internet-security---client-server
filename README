@@ -27,9 +27,16 @@ set4		1234
 --------------------------------------------
 
 
-Send Message to Only one Client:
 --------------------------------------------
-[set3@127.0.0.1]> set Testingsend 
-              -- Will send the message 'Testingsend' from 'set3' to 'set'.
-First word in the command prompt should be the username, whom we wish to send message. If the user is not loggedin currently, we get an appropriate error.
+Send Message to Multiple Clients
+--------------------------------------------
+Message to be Entered at the Command Prompt follows this format:
+[set3@127.0.0.1]>1 set Testingsend 
+	-- sends message 'Testingsend' to '1' client named 'set'
+[set3@127.0.0.1]>2 set set2 Testingsend 
+	-- sends message 'Testingsend' to '2' clients named 'set' and 'set2'
+[set3@127.0.0.1]>0 Testingsend 
+	-- sends message 'Testingsend' to all connected clients -- basically Boradcast
+
+If any client that is not online is to be sent message, we get appropriate error for each unavailable user. 
 --------------------------------------------

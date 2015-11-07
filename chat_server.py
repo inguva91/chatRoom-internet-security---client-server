@@ -183,21 +183,29 @@ class chat_server(object):
 
                                 # Send as new client's message...
 				dataReceivers = data.split(' ')
-				dataReceiver = dataReceivers[0]
-				print dataReceiver
-                                msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[1]
+				numDataReceivers = int(dataReceivers[0])
+				print dataReceivers[0]
 
-                                # Send msg to all except ourselves
-				if dataReceiver in existingCustomers.values():
-					#print 'trying to send now'
-                                	for o in self.outputs:
-                                    		#if o != s:
-                                    		if existingCustomers.get(o) == dataReceiver:
-							#print 'sending now'
-                                        		self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+				if numDataReceivers != 0:
+					for k in xrange(1,numDataReceivers+1):
+						print dataReceivers[k]
+                                	msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[numDataReceivers+1]
+
+					for j in xrange(1, numDataReceivers+1):
+						if dataReceivers[j] in existingCustomers.values():
+                        	        		for o in self.outputs:
+                                	    			if existingCustomers.get(o) == dataReceivers[j]:
+                                        				self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+						else:
+                                			msg = '\n# [' + self.getName(s) + ']>> ' + 'Receiver ' + dataReceiver + ' is NOT Logged In Now'
+							self.sendEncryptedMsg(s, msg, self.get_just_name(s))
 				else:
-                                	msg = '\n# [' + self.getName(s) + ']>> ' + 'Receiver ' + dataReceiver + ' is NOT Logged In Now'
-					self.sendEncryptedMsg(s, msg, self.get_just_name(s))
+	                                # Send msg to all except ourselves
+					print 'Sending to All users'
+                                	msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[numDataReceivers+1]
+                        		for o in self.outputs:
+						if o != s:
+                                        		self.sendEncryptedMsg(o, msg, self.get_just_name(s))
 
                         else:
 
