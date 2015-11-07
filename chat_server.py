@@ -183,29 +183,45 @@ class chat_server(object):
 
                                 # Send as new client's message...
 				dataReceivers = data.split(' ')
-				numDataReceivers = int(dataReceivers[0])
-				print dataReceivers[0]
+				total = 0
+				for rec in dataReceivers:
+					total = total + 1
+				
+				dataReceivers = data.split(' ')
+				try:
+					numDataReceivers = int(dataReceivers[0])
+					
+					print dataReceivers[0]
 
-				if numDataReceivers != 0:
-					for k in xrange(1,numDataReceivers+1):
-						print dataReceivers[k]
-                                	msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[numDataReceivers+1]
+					if numDataReceivers != 0:
+						for k in xrange(1,numDataReceivers+1):
+							print dataReceivers[k]
+                                		msg = '\n# [' + self.getName(s) + ']>> ' 
+						for ltotal in xrange (1,total-numDataReceivers):
+							msg = msg + dataReceivers[numDataReceivers+ltotal] + ' '
 
-					for j in xrange(1, numDataReceivers+1):
-						if dataReceivers[j] in existingCustomers.values():
-                        	        		for o in self.outputs:
-                                	    			if existingCustomers.get(o) == dataReceivers[j]:
-                                        				self.sendEncryptedMsg(o, msg, self.get_just_name(s))
-						else:
-                                			msg = '\n# [' + self.getName(s) + ']>> ' + 'Receiver ' + dataReceiver + ' is NOT Logged In Now'
-							self.sendEncryptedMsg(s, msg, self.get_just_name(s))
-				else:
-	                                # Send msg to all except ourselves
-					print 'Sending to All users'
-                                	msg = '\n# [' + self.getName(s) + ']>> ' + dataReceivers[numDataReceivers+1]
-                        		for o in self.outputs:
-						if o != s:
-                                        		self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+						for j in xrange(1, numDataReceivers+1):
+							if dataReceivers[j] in existingCustomers.values():
+                        	        			for o in self.outputs:
+                                	    				if existingCustomers.get(o) == dataReceivers[j]:
+                                        					self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+							else:
+                                				msg = '\n# [' + self.getName(s) + ']>> ' + 'Receiver ' + dataReceivers[j] + ' is NOT Logged In Now'
+								self.sendEncryptedMsg(s, msg, self.get_just_name(s))
+					else:
+	                                	# Send msg to all except ourselves
+						print 'Sending to All users'
+                                		msg = '\n# [' + self.getName(s) + ']>> '
+						for ltotal in xrange (1,total-numDataReceivers):
+							msg = msg + dataReceivers[numDataReceivers+ltotal] + ' '
+                        			for o in self.outputs:
+							if o != s:
+                                        			self.sendEncryptedMsg(o, msg, self.get_just_name(s))
+				
+				except ValueError:
+                                	msg = '\n# [' + self.getName(s) + ']>> ' + 'Message Not in Expected Format'
+					self.sendEncryptedMsg(s, msg, self.get_just_name(s))
+					continue
 
                         else:
 
