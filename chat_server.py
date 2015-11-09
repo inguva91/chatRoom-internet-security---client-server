@@ -190,8 +190,10 @@ class chat_server(object):
 				dataReceivers = data.split(' ')
 				try:
 					numDataReceivers = int(dataReceivers[0])
+					if numDataReceivers > 9:
+						numDataReceivers = 0
 					
-					print dataReceivers[0]
+					#print dataReceivers[0]
 
 					if numDataReceivers != 0:
 						for k in xrange(1,numDataReceivers+1):
